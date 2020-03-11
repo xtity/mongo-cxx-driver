@@ -34,6 +34,7 @@ namespace benchmark {
 // The task sizes and iteration numbers come from the Driver Perfomance Benchmarking Reference Doc.
 benchmark_runner::benchmark_runner(std::set<benchmark_type> types) : _types{types} {
     using bsoncxx::stdx::make_unique;
+    mongocxx::instance instance{};
 
     // Bson microbenchmarks
     _microbenches.push_back(
@@ -90,8 +91,6 @@ benchmark_runner::benchmark_runner(std::set<benchmark_type> types) : _types{type
 }
 
 void benchmark_runner::run_microbenches() {
-    mongocxx::instance instance{};
-
     for (std::unique_ptr<microbench>& bench : _microbenches) {
         std::cout << "Starting " << bench->get_name() << "..." << std::endl;
 
